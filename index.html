@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دليل مواقع الاستبيانات المدفوعة</title>
+<link rel="manifest" id="manifestLink">
+<style>
+  :root{
+    --bg:#0F1A17; --panel:#16241F; --panel2:#1D2E27; --line:#2A3D34;
+    --gold:#C9A227; --gold-soft:#8B7A2E; --kiwi:#8FCB2E;
+    --text:#EDEBDF; --text-dim:#9FB0A6; --ok:#4E9F5D; --warn:#D98B3A; --bad:#C1503F;
+  }
+  *{box-sizing:border-box; max-width:100%;}
+  html,body{margin:0; padding:0; width:100%; overflow-x:hidden; overscroll-behavior-x:none;}
+  body{background:var(--bg); color:var(--text); font-family:"Tahoma","Segoe UI",Arial,sans-serif; line-height:1.6; position:relative; overflow-x:hidden; touch-action:pan-y; -ms-touch-action:pan-y;}
+  header, main, footer, .controls{ max-width:100vw; }
+  .glow-orb{ position:absolute; top:-120px; inset-inline-end:-80px; width:340px; height:340px;
+    background:radial-gradient(circle, rgba(201,162,39,0.16) 0%, rgba(201,162,39,0) 70%);
+    filter:blur(10px); animation:drift 14s ease-in-out infinite alternate; pointer-events:none; z-index:0;}
+  @keyframes drift{ from{transform:translate(0,0) scale(1);} to{transform:translate(-30px,40px) scale(1.15);} }
+  header{ position:relative; z-index:1; padding:20px 20px 18px; border-bottom:1px solid var(--line); }
+  .topbar{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+  .live{ display:inline-flex; align-items:center; gap:7px; font-size:0.78rem; letter-spacing:0.5px; color:var(--kiwi); font-weight:bold; }
+  .live-dot{ width:10px; height:10px; border-radius:50%; background:var(--kiwi); opacity:0.85; animation:pulse 1.8s infinite; }
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(143,203,46,0.55);} 70%{box-shadow:0 0 0 9px rgba(143,203,46,0);} 100%{box-shadow:0 0 0 0 rgba(143,203,46,0);} }
+  .dev-credit{ font-style:italic; font-size:0.82rem; font-weight:600; color:#EAD98C; animation:softglow 3s ease-in-out infinite; }
+  @keyframes softglow{ 0%,100%{text-shadow:0 0 2px rgba(234,217,140,0.25);} 50%{text-shadow:0 0 8px rgba(234,217,140,0.55);} }
+  .top-actions{ display:flex; gap:8px; align-items:center; }
+  select#langSelect{ background:var(--panel2); color:var(--text); border:1px solid var(--line); border-radius:16px; padding:6px 10px; font-size:0.78rem; }
+  .icon-btn{ width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:var(--panel2); border:1px solid var(--line); border-radius:50%; cursor:pointer; color:var(--text); text-decoration:none; }
+  .icon-btn:hover{ border-color:var(--gold-soft); }
+  .icon-btn svg{ width:16px; height:16px; }
+  header h1{ margin:4px 0 6px; font-size:1.45rem; color:var(--gold); }
+  header p{ margin:0; color:var(--text-dim); font-size:0.92rem; max-width:640px; }
+  .controls{ display:flex; flex-wrap:wrap; gap:10px; padding:16px 20px; background:var(--panel); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
+  .controls input, .controls select{ background:var(--panel2); border:1px solid var(--line); color:var(--text); padding:10px 12px; border-radius:6px; font-size:0.9rem; flex:1 1 160px; }
+  main{ position:relative; z-index:1; padding:16px 20px 40px; }
+  .section-title{ font-size:1.05rem; color:var(--text); margin:26px 0 12px; border-inline-start:3px solid var(--gold); padding-inline-start:10px; }
+  .section-desc{ color:var(--text-dim); font-size:0.87rem; }
+  .count{ color:var(--text-dim); font-size:0.85rem; margin:0 0 12px; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px; margin-bottom:12px; transition:border-color .25s ease, transform .25s ease; }
+  .card:hover{ border-color:var(--gold-soft); transform:translateY(-1px); }
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .card-top h3{ margin:0; font-size:1.05rem; }
+  .card-top a{ color:var(--gold); text-decoration:none; font-size:0.85rem; border:1px solid var(--gold-soft); padding:6px 12px; border-radius:20px; white-space:nowrap; }
+  .card-top a:hover{ background:var(--gold); color:#12241C; }
+  .badge{ display:inline-block; font-size:0.75rem; padding:3px 9px; border-radius:20px; margin:8px 6px 0 0; }
+  .b-open{ background:rgba(78,159,93,0.18); color:var(--ok); }
+  .b-vpn{ background:rgba(217,139,58,0.18); color:var(--warn); }
+  .b-closed{ background:rgba(193,80,63,0.18); color:var(--bad); }
+  .meta{ margin-top:10px; font-size:0.87rem; color:var(--text-dim); }
+  .meta b{ color:var(--text); }
+  footer{ position:relative; z-index:1; padding:20px; border-top:1px solid var(--line); color:var(--text-dim); font-size:0.83rem; }
+  footer h4{ color:var(--text); margin:0 0 6px; }
+  footer .note{ background:var(--panel2); border-inline-start:3px solid var(--bad); padding:12px 14px; border-radius:6px; margin:10px 0; }
+  .contact-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+  .contact-row a{ display:inline-flex; align-items:center; gap:7px; background:var(--panel2); border:1px solid var(--line); padding:8px 14px; border-radius:20px; color:var(--text); text-decoration:none; font-size:0.82rem; }
+  .contact-row a:hover{ border-color:var(--gold-soft); }
+  .contact-row svg{ width:15px; height:15px; }
+  .fab-stack{ position:fixed; bottom:18px; inset-inline-end:18px; display:flex; flex-direction:column; gap:10px; z-index:40; }
+  .fab{ width:52px; height:52px; border-radius:50%; background:var(--gold); color:#12241C; border:none; font-size:1.3rem; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.4); }
+  .fab.secondary{ background:var(--panel2); color:var(--text); border:1px solid var(--line); width:44px; height:44px; font-size:1.05rem; }
+  .sheet, .chatbox{ position:fixed; bottom:0; left:0; right:0; background:var(--panel); border-top:1px solid var(--line); border-radius:16px 16px 0 0; padding:16px 18px 22px; z-index:50; transform:translateY(100%); transition:transform .3s ease; max-height:70vh; overflow-y:auto; }
+  .sheet.open, .chatbox.open{ transform:translateY(0); }
+  .sheet h4, .chatbox h4{ margin:0 0 12px; color:var(--gold); }
+  .sheet a{ display:flex; align-items:center; gap:10px; background:var(--panel2); border:1px solid var(--line); padding:10px 14px; border-radius:8px; color:var(--text); text-decoration:none; margin-bottom:8px; font-size:0.88rem; }
+  .close-x{ position:absolute; top:12px; inset-inline-start:16px; background:none; border:none; color:var(--text-dim); font-size:1.1rem; cursor:pointer; }
+  .chat-log{ min-height:120px; max-height:38vh; overflow-y:auto; margin-bottom:10px; }
+  .chat-bubble{ background:var(--panel2); border:1px solid var(--line); padding:9px 12px; border-radius:10px; margin-bottom:8px; font-size:0.87rem; max-width:90%; }
+  .chat-bubble.user{ margin-inline-start:auto; border-color:var(--gold-soft); }
+  .chat-input-row{ display:flex; gap:8px; }
+  .chat-input-row input{ flex:1; background:var(--panel2); border:1px solid var(--line); color:var(--text); padding:10px 12px; border-radius:8px; font-size:0.9rem; }
+  .chat-input-row button{ background:var(--gold); color:#12241C; border:none; padding:0 16px; border-radius:8px; cursor:pointer; font-weight:bold; }
+  .chat-hint{ font-size:0.76rem; color:var(--text-dim); margin-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="glow-orb"></div>
+
+<header>
+  <div class="topbar">
+    <span class="live"><span class="live-dot"></span>LIVE</span>
+    <span class="dev-credit">by nidal watfa</span>
+    <div class="top-actions">
+      <select id="langSelect">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="ku">Kurdî</option>
+        <option value="hy">Հայերեն</option>
+      </select>
+      <button class="icon-btn" id="shareTopBtn" title="share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>
+      </button>
+    </div>
+  </div>
+  <h1 id="pageTitle"></h1>
+  <p id="pageSubtitle"></p>
+</header>
+
+<div class="controls">
+  <input id="search" type="text">
+  <select id="filterPay"></select>
+  <select id="filterStatus"></select>
+</div>
+
+<main>
+  <p class="count" id="count"></p>
+  <div id="list"></div>
+
+  <h2 class="section-title" id="extraTitle"></h2>
+  <p class="section-desc" id="extraDesc"></p>
+  <div id="extraList"></div>
+</main>
+
+<footer>
+  <h4 id="footTitle"></h4>
+  <div class="note" id="footNote"></div>
+  <p id="footAlt"></p>
+
+  <h4 style="margin-top:18px;" id="contactTitle"></h4>
+  <div class="contact-row">
+    <a href="mailto:nidalwatfa99@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span id="emailLabel"></span></a>
+    <a href="https://wa.me/963998854450" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 1 1-4.06-7.24L21 3l-1.2 4.06A8.46 8.46 0 0 1 21 11.5z"/><path d="M8 10s.5 2 2 3.5 3.5 2 3.5 2"/></svg><span id="whatsappLabel"></span></a>
+  </div>
+  <p style="margin-top:14px;" id="footDisclaimer"></p>
+</footer>
+
+<div class="fab-stack">
+  <button class="fab" id="chatFab">💬</button>
+  <button class="fab secondary" id="installFab">📲</button>
+</div>
+
+<div class="sheet" id="shareSheet">
+  <button class="close-x" data-close="shareSheet">✕</button>
+  <h4 id="shareTitle"></h4>
+  <a id="shareWhatsapp" href="#" target="_blank"></a>
+  <a id="shareTelegram" href="#" target="_blank"></a>
+  <a href="#" id="shareCopy"></a>
+</div>
+
+<div class="sheet" id="installSheet">
+  <button class="close-x" data-close="installSheet">✕</button>
+  <h4 id="installTitle"></h4>
+  <p style="font-size:0.87rem; color:var(--text-dim);" id="installMsg"></p>
+  <button id="doInstall" style="display:none; background:var(--gold); color:#12241C; border:none; padding:10px 16px; border-radius:8px; font-weight:bold; cursor:pointer;"></button>
+</div>
+
+<div class="chatbox" id="chatBox">
+  <button class="close-x" data-close="chatBox">✕</button>
+  <h4 id="chatTitle"></h4>
+  <div class="chat-log" id="chatLog"></div>
+  <div class="chat-input-row">
+    <input id="chatInput" type="text">
+    <button id="chatSend"></button>
+  </div>
+  <p class="chat-hint" id="chatHint"></p>
+</div>
+
+<script>
+/* ============ i18n ============ */
+const I18N = {
+  ar:{ dir:'rtl', title:'دليل مواقع الاستبيانات المدفوعة', subtitle:'قائمة عالمية لمواقع الاستبيانات المدفوعة، مع طريقة الدفع وملاحظات حول القيود الجغرافية. تحقق دائماً عند التسجيل.',
+    searchPh:'ابحث باسم الموقع...', payAll:'كل طرق الدفع', statusAll:'كل الحالات',
+    statusOpen:'متاح غالباً بدون قيود', statusVpn:'قد يحتاج VPN / غير مؤكد', statusClosed:'مقيّد جغرافياً رسمياً',
+    countT:(n,t)=>`${n} موقع من أصل ${t}`, openSite:'فتح الموقع ↗', payLabel:'طرق الدفع:',
+    extraTitle:'طرق أخرى للربح من المنزل عبر الإنترنت',
+    extraDesc:'هذه ليست مواقع استبيانات، لكنها طرق شائعة لكسب المال من وقت الفراغ. تحقق من قبول التسجيل وطريقة الدفع في بلدك قبل الاستثمار بوقتك.',
+    footTitle:'ملاحظة مهمة حول العقوبات وطرق الدفع',
+    footNote:'لا يتضمن هذا الدليل أي طريقة لفتح حسابات دفع عبر بروكسي أو خدمات مزيّفة لتجاوز قيود جغرافية أو عقوبات، لأن ذلك يخالف شروط الاستخدام ويعرّض الحساب لخطر التجميد، وقد يشكّل مخالفة قانونية.',
+    footAlt:'البديل الأكثر واقعية: العملات الرقمية أو بطاقات الهدايا الإلكترونية، أو Payoneer إن كان متاحاً فعلياً في بلدك.',
+    contactTitle:'تواصل مع المطور', emailLabel:'البريد الإلكتروني', whatsappLabel:'واتساب',
+    footDisclaimer:'هذا الدليل معلومات عامة وليس ضماناً لقبول التسجيل أو الدفع الفعلي. لا تدفع مالاً مقابل "فتح" أي حساب استبيانات. تنبيه إضافي: بعض الروابط على الإنترنت تحتوي معرّفات مثل ref أو aff_id تابعة لمسوّقين بالعمولة، وقد تُعيد توجيهك لعروض غير موثّقة الهوية تحت أسماء مختلفة — تحقق دائماً من الرابط الرسمي للموقع قبل التسجيل.',
+    shareTitle:'مشاركة التطبيق', shareWA:'📱 مشاركة عبر واتساب', shareTG:'✈️ مشاركة عبر تيليجرام', shareCopy:'🔗 نسخ الرابط', copied:'✅ تم نسخ الرابط',
+    installTitle:'تثبيت التطبيق', installDefault:'إذا فُتح هذا التطبيق من رابط ويب حقيقي، سيظهر زر تثبيت مباشر هنا. وإلا استخدم "إضافة إلى الشاشة الرئيسية" من قائمة المتصفح.', installReady:'التطبيق جاهز للتثبيت على جهازك.', installNow:'تثبيت الآن',
+    chatTitle:'مساعد الدليل', chatPh:'اسأل عن أي موقع أو كيفية التسجيل...', chatSend:'إرسال',
+    chatHint:'مساعد داخلي يعمل بقواعد مبرمجة مسبقاً، وليس نموذج ذكاء اصطناعي حي.',
+    chatGreeting:'أهلاً! اسألني عن اسم أي موقع، أو عن VPN، الدفع، أو التسجيل.',
+    chatNotFound:'لم أفهم السؤال تماماً. جرّب كتابة اسم موقع من القائمة، أو اسأل عن VPN، الدفع، أو التسجيل.',
+    pay:{crypto:'عملات رقمية', giftcards:'بطاقات هدايا', paypal:'PayPal', payoneer:'Payoneer', bank:'تحويل بنكي', check:'شيك بريدي', playstore:'رصيد Google Play', donation:'تبرع خيري'} },
+
+  en:{ dir:'ltr', title:'Paid Survey Sites Directory', subtitle:'A worldwide list of paid survey sites, with payment methods and notes on regional restrictions. Always verify at signup.',
+    searchPh:'Search by site name...', payAll:'All payment methods', statusAll:'All statuses',
+    statusOpen:'Usually open, no restrictions', statusVpn:'May need VPN / unconfirmed', statusClosed:'Officially region-restricted',
+    countT:(n,t)=>`${n} of ${t} sites`, openSite:'Open site ↗', payLabel:'Payment methods:',
+    extraTitle:'Other ways to earn from home online',
+    extraDesc:'These are not survey sites, but common ways to earn in your free time. Verify signup acceptance and payout method in your country first.',
+    footTitle:'Important note on sanctions and payments',
+    footNote:'This guide does not include any method for opening payment accounts via proxy or fake services to bypass regional restrictions or sanctions — doing so violates terms of service, risks account freezing, and may be illegal.',
+    footAlt:'The more realistic option: cryptocurrency, e-gift cards, or Payoneer where genuinely available in your country.',
+    contactTitle:'Contact the developer', emailLabel:'Email', whatsappLabel:'WhatsApp',
+    footDisclaimer:'This guide is general information, not a guarantee of signup acceptance or actual payment. Never pay money to "unlock" a survey account. Extra note: some links online carry affiliate identifiers (like ref or aff_id) that can redirect you to unverified offers under different brand names — always double-check the official site link before signing up.',
+    shareTitle:'Share this app', shareWA:'📱 Share on WhatsApp', shareTG:'✈️ Share on Telegram', shareCopy:'🔗 Copy link', copied:'✅ Link copied',
+    installTitle:'Install app', installDefault:'If this app is opened from a real web link, an install button will appear here. Otherwise use "Add to Home Screen" from your browser menu.', installReady:'This app is ready to install on your device.', installNow:'Install now',
+    chatTitle:'Guide assistant', chatPh:'Ask about a site or how to sign up...', chatSend:'Send',
+    chatHint:'Built-in rule-based assistant, not a live AI model.',
+    chatGreeting:'Hi! Ask me about any site by name, or about VPN, payments, or signup.',
+    chatNotFound:'I did not quite get that. Try a site name, or ask about VPN, payment, or signup.',
+    pay:{crypto:'Cryptocurrency', giftcards:'Gift cards', paypal:'PayPal', payoneer:'Payoneer', bank:'Bank transfer', check:'Check', playstore:'Google Play credit', donation:'Charity donation'} },
+
+  ku:{ dir:'ltr', title:'Rêbera Malperên Anketên Dravdayîn', subtitle:'Lîsteyeke cîhanî ya malperên anketên dravdayîn, digel awayên tediyê û tebînî li ser sînordariyên herêmî. Her tim di tomarkirinê de piştrast bike.',
+    searchPh:'Li gorî navê malperê bigere...', payAll:'Hemû awayên tediyê', statusAll:'Hemû rewş',
+    statusOpen:'Bi gelemperî vekirî, bêyî sînor', statusVpn:'Dibe ku hewceyî VPN be / ne pêdiyar', statusClosed:'Bi fermî bi herêmê ve sînordar e',
+    countT:(n,t)=>`${n} ji ${t} malperan`, openSite:'Malperê veke ↗', payLabel:'Awayên tediyê:',
+    extraTitle:'Rêyên din ên qezenckirinê ji malê bi înternetê',
+    extraDesc:'Ev ne malperên anketê ne, lê rêyên hevpar in ji bo qezenckirina di dema vala de. Berî tomarkirinê, pejirandin û awayê tediyê li welatê xwe piştrast bike.',
+    footTitle:'Tebîneke girîng li ser sînordarî û tediyê',
+    footNote:'Ev rêber tu awayekî ji bo vekirina hesabên tediyê bi navbeynkariyê an karûbarên derewîn re nagire, ji ber ku ev tişt li dijî mercên bikaranînê ye û rîska qedexekirina hesêb û pirsgirêkên qanûnî çêdike.',
+    footAlt:'Vebijêrka herî realîst: pereyên krîptoyê, kartên diyariyê yên elektronîk, an Payoneer heke bi rastî li welatê te berdest be.',
+    contactTitle:'Bi pêşdebir re têkilî deyne', emailLabel:'E-peyam', whatsappLabel:'WhatsApp',
+    footDisclaimer:'Ev rêber agahiyeke giştî ye, ne garantiyek e ji bo pejirandina tomarkirinê an tediya rastîn. Tu carî pere neyde ji bo "vekirina" hesabeke anketê.',
+    shareTitle:'Vê sepanê parve bike', shareWA:'📱 Bi WhatsApp parve bike', shareTG:'✈️ Bi Telegram parve bike', shareCopy:'🔗 Girêdanê kopî bike', copied:'✅ Girêdan hate kopîkirin',
+    installTitle:'Sepanê saz bike', installDefault:'Heke ev sepan ji girêdaneke webê ya rastîn were vekirin, bişkokeke sazkirinê li vir dê xuya bibe. An na, ji menuya geroka xwe "Li Ekrana Serekî Zêde Bike" bikar bîne.', installReady:'Sepan amade ye ji bo sazkirinê li ser cîhaza te.', installNow:'Niha saz bike',
+    chatTitle:'Alîkarê rêberê', chatPh:'Li ser malperekê an awayê tomarkirinê bipirse...', chatSend:'Bişîne',
+    chatHint:'Alîkareke navxweyî ya li gorî rêzikan e, ne modeleke AI ya zindî ye.',
+    chatGreeting:'Silav! Navê malperekê ji min bipirse, an li ser VPN, tediyê, an tomarkirinê bipirse.',
+    chatNotFound:'Min baş fam nekir. Navê malperekê biceribîne, an li ser VPN, tediyê, an tomarkirinê bipirse.',
+    pay:{crypto:'Pereyên krîpto', giftcards:'Kartên diyariyê', paypal:'PayPal', payoneer:'Payoneer', bank:'Veguhastina bankê', check:'Çek', playstore:'Krediya Google Play', donation:'Bexşîna xêrxwaziyê'} },
+
+  hy:{ dir:'ltr', title:'Վճարովի հարցումների կայքերի ցանկ', subtitle:'Վճարովի հարցումների կայքերի համաշխարհային ցանկ՝ վճարման եղանակներով և տարածաշրջանային սահմանափակումների վերաբերյալ նշումներով։ Միշտ ստուգեք գրանցվելիս։',
+    searchPh:'Փնտրեք կայքի անունով...', payAll:'Բոլոր վճարման եղանակները', statusAll:'Բոլոր կարգավիճակները',
+    statusOpen:'Սովորաբար բաց, առանց սահմանափակման', statusVpn:'Կարող է պահանջել VPN / անհաստատ', statusClosed:'Պաշտոնապես տարածաշրջանով սահմանափակված',
+    countT:(n,t)=>`${n} կայք ${t}-ից`, openSite:'Բացել կայքը ↗', payLabel:'Վճարման եղանակներ.',
+    extraTitle:'Տնից եկամուտ ստանալու այլ եղանակներ',
+    extraDesc:'Սրանք հարցումների կայքեր չեն, բայց տարածված եղանակներ են ազատ ժամանակ վաստակելու համար։ Նախապես ստուգեք ձեր երկրում գրանցման ընդունելիությունը և վճարման եղանակը։',
+    footTitle:'Կարևոր նշում պատժամիջոցների և վճարումների մասին',
+    footNote:'Այս ուղեցույցը չի ներառում պրոքսի կամ կեղծ ծառայությունների միջոցով վճարային հաշիվներ բացելու որևէ մեթոդ՝ տարածաշրջանային սահմանափակումները կամ պատժամիջոցները շրջանցելու համար, քանի որ դա խախտում է օգտագործման պայմանները և կարող է հանգեցնել հաշվի արգելափակման կամ իրավական հետևանքների։',
+    footAlt:'Առավել իրատեսական տարբերակը՝ կրիպտոարժույթ, էլեկտրոնային նվեր քարտեր, կամ Payoneer, եթե դրանք իրապես հասանելի են ձեր երկրում։',
+    contactTitle:'Կապվել մշակողի հետ', emailLabel:'Էլ. փոստ', whatsappLabel:'WhatsApp',
+    footDisclaimer:'Այս ուղեցույցը ընդհանուր տեղեկատվություն է և չի երաշխավորում գրանցման ընդունելիությունը կամ իրական վճարումը։ Երբեք գումար մի վճարեք հարցումների հաշիվ "բացելու" համար։',
+    shareTitle:'Կիսվել հավելվածով', shareWA:'📱 Կիսվել WhatsApp-ով', shareTG:'✈️ Կիսվել Telegram-ով', shareCopy:'🔗 Պատճենել հղումը', copied:'✅ Հղումը պատճենվեց',
+    installTitle:'Տեղադրել հավելվածը', installDefault:'Եթե հավելվածը բացվում է իրական վեբ հղումից, տեղադրման կոճակը կհայտնվի այստեղ։ Հակառակ դեպքում օգտագործեք "Ավելացնել Հիմնական էկրանին" բրաուզերի ընտրացանկից։', installReady:'Հավելվածը պատրաստ է տեղադրման ձեր սարքում։', installNow:'Տեղադրել հիմա',
+    chatTitle:'Ուղեցույցի օգնական', chatPh:'Հարցրեք կայքի կամ գրանցման մասին...', chatSend:'Ուղարկել',
+    chatHint:'Ներկառուցված կանոնահեն օգնական է, ոչ թե կենդանի AI մոդել։',
+    chatGreeting:'Բարև! Հարցրեք ինձ ցանկացած կայքի անունով, կամ VPN-ի, վճարման, կամ գրանցման մասին։',
+    chatNotFound:'Ես լավ չհասկացա։ Փորձեք գրել կայքի անուն, կամ հարցրեք VPN, վճարման, կամ գրանցման մասին։',
+    pay:{crypto:'Կրիպտոարժույթ', giftcards:'Նվեր քարտեր', paypal:'PayPal', payoneer:'Payoneer', bank:'Բանկային փոխանցում', check:'Չեկ', playstore:'Google Play վարկ', donation:'Բարեգործական նվիրատվություն'} }
+};
+
+let currentLang = 'ar';
+
+/* ============ data (notes: ar/en full, ku/hy fall back to en) ============ */
+const sites = [
+  {name:"Freecash", url:"https://freecash.com", pay:["crypto","giftcards"], status:"open",
+    note:{ar:"من أكثر المواقع مرونة جغرافياً، الدفع بالعملات الرقمية لا يتطلب VPN غالباً.", en:"One of the most globally flexible sites; crypto payout usually needs no VPN."}},
+  {name:"Timebucks", url:"https://timebucks.com", pay:["crypto","giftcards"], status:"open",
+    note:{ar:"معروف بقبول دول لا تقبلها مواقع أخرى، والدفع بالعملات الرقمية يسهّل الأمر.", en:"Known for accepting countries other sites reject; crypto payout makes this easier."}},
+  {name:"ySense", url:"https://www.ysense.com", pay:["payoneer","giftcards"], status:"vpn",
+    note:{ar:"يخدم أسواقاً لا يدعمها PayPal، لكن قبول التسجيل من بعض الدول غير مؤكد.", en:"Serves markets PayPal doesn't; signup acceptance for some countries is unconfirmed."}},
+  {name:"Toluna", url:"https://www.toluna.com", pay:["giftcards","paypal"], status:"vpn",
+    note:{ar:"متاح رسمياً في 40+ دولة؛ قد تحتاج VPN إذا بلدك خارج القائمة الرسمية.", en:"Officially available in 40+ countries; VPN may help if yours isn't on the official list."}},
+  {name:"LifePoints", url:"https://www.lifepointspanel.com", pay:["giftcards","paypal"], status:"vpn",
+    note:{ar:"شبكة عالمية واسعة، التسجيل خارج الدول المدعومة رسمياً يتطلب عادة VPN وعنوان بديل.", en:"Large global panel; signing up outside officially supported countries usually needs VPN and an alt address."}},
+  {name:"PrizeRebel", url:"https://www.prizerebel.com", pay:["giftcards","crypto"], status:"vpn",
+    note:{ar:"يقبل مستخدمين من عدة دول ناشئة، القبول ليس مضموناً للجميع.", en:"Accepts users from several emerging markets; acceptance isn't guaranteed for everyone."}},
+  {name:"Ipsos iSay", url:"https://www.iSay.com", pay:["giftcards"], status:"vpn",
+    note:{ar:"شركة أبحاث سوق كبرى، التغطية الجغرافية محدودة حسب المنطقة.", en:"Large market-research firm; geographic coverage is limited by region."}},
+  {name:"Branded Surveys", url:"https://www.brandedsurveys.com", pay:["paypal","giftcards"], status:"vpn",
+    note:{ar:"يتطلب عنوان بدولة مدعومة عادةً؛ PayPal يواجه قيود العقوبات في بعض الدول.", en:"Usually requires an address in a supported country; PayPal faces sanctions restrictions in some countries."}},
+  {name:"Swagbucks", url:"https://www.swagbucks.com", pay:["paypal","giftcards"], status:"closed",
+    note:{ar:"يحظر رسمياً حسابات من دول تخضع لعقوبات أمريكية.", en:"Officially blocks accounts from countries under US sanctions."}},
+  {name:"Survey Junkie", url:"https://www.surveyjunkie.com", pay:["paypal","giftcards"], status:"closed",
+    note:{ar:"مقتصر رسمياً على الولايات المتحدة وكندا وأستراليا.", en:"Officially limited to the US, Canada, and Australia."}},
+  {name:"Prolific", url:"https://www.prolific.com", pay:["paypal"], status:"closed",
+    note:{ar:"مخصص لباحثين أكاديميين، ومقتصر على قائمة دول محددة.", en:"Built for academic research, limited to a specific list of countries."}},
+  {name:"InboxDollars", url:"https://www.inboxdollars.com", pay:["paypal","check"], status:"closed",
+    note:{ar:"مقتصر على المستخدمين داخل الولايات المتحدة فقط.", en:"Limited to users inside the United States only."}},
+  {name:"Pinecone Research", url:"https://www.pineconeresearch.com", pay:["giftcards","paypal"], status:"closed",
+    note:{ar:"غالباً مقتصر على الولايات المتحدة والمملكة المتحدة وكندا وأستراليا.", en:"Usually limited to the US, UK, Canada, and Australia."}},
+  {name:"MyPoints", url:"https://www.mypoints.com", pay:["paypal","giftcards"], status:"closed",
+    note:{ar:"مقتصر أساساً على المستخدمين في الولايات المتحدة.", en:"Mainly limited to users in the United States."}},
+  {name:"KashKick", url:"https://www.kashkick.com", pay:["paypal"], status:"closed",
+    note:{ar:"مقتصر على الولايات المتحدة فقط.", en:"US-only."}},
+  {name:"Opinion Outpost", url:"https://www.opinionoutpost.com", pay:["giftcards","paypal"], status:"vpn",
+    note:{ar:"متاح في عدة دول غربية؛ التسجيل خارجها يحتاج VPN عادة.", en:"Available in several Western countries; signing up elsewhere usually needs VPN."}},
+  {name:"Respondent", url:"https://www.respondent.io", pay:["paypal"], status:"vpn",
+    note:{ar:"مقابلات بحثية بأجر مرتفع نسبياً، القبول يعتمد على الملف الشخصي والدولة.", en:"Relatively high-paying research interviews; acceptance depends on your profile and country."}},
+  {name:"Google Opinion Rewards", url:"https://opinionrewards.google.com", pay:["playstore"], status:"vpn",
+    note:{ar:"يدفع رصيد Google Play وليس نقداً حقيقياً؛ التوفر يعتمد على الدولة المسجلة في حساب Google.", en:"Pays Google Play credit, not real cash; availability depends on your Google account's registered country."}},
+  {name:"Panel Station", url:"https://www.panelstation.com", pay:["giftcards"], status:"vpn",
+    note:{ar:"موجّه أساساً لجنوب/جنوب شرق آسيا وأمريكا اللاتينية.", en:"Mainly aimed at South/Southeast Asia and Latin America."}},
+  {name:"American Consumer Opinion", url:"https://www.acop.com", pay:["giftcards","check"], status:"vpn",
+    note:{ar:"شبكة عالمية قديمة، التوفر لكل دولة يعتمد على طلب الأبحاث الحالي.", en:"A long-running global panel; per-country availability depends on current research demand."}},
+  {name:"MetroOpinion", url:"https://www.metroopinion.com", pay:["paypal","giftcards","donation"], status:"open",
+    note:{ar:"من المواقع القليلة التي لديها نسخة مخصصة بالعربية لسوريا (رابط sy-ar)، ما يشير لتوفر فعلي؛ الدفع الأساسي PayPal مع بدائل بطاقات هدايا وتبرع.", en:"One of the few sites with a dedicated Arabic Syria page (sy-ar), suggesting genuine availability; main payout is PayPal with gift-card or donation alternatives."}},
+  {name:"NiceSurveys", url:"https://www.nicesurveys.com", pay:["paypal","giftcards"], status:"vpn",
+    note:{ar:"شبكة حديثة نسبياً بحد أدنى سحب منخفض (من 1$)؛ أقوى تغطية في أمريكا وبريطانيا وكندا وأستراليا والهند، وباقي الدول تعتمد على بطاقات هدايا غالباً.", en:"A relatively new panel with a very low cash-out minimum (from $1); strongest coverage in the US, UK, Canada, Australia, and India — other countries mostly get gift cards."}},
+  {name:"SurveyLama", url:"https://surveylama.com", pay:["paypal","giftcards"], status:"vpn",
+    note:{ar:"تغطية جغرافية أوسع من كثير من المنافسين وتشمل دولاً نامية في أفريقيا وآسيا؛ الدفع الأساسي PayPal وبديل بطاقات أمازون في بعض الدول.", en:"Broader geographic reach than many competitors, including developing countries in Africa and Asia; main payout is PayPal with Amazon gift cards as an alternative in some countries."}},
+  {name:"Prime Opinion", url:"https://www.primeopinion.com", pay:["paypal","giftcards"], status:"vpn",
+    note:{ar:"من المواقع القليلة التي تسوّق نفسها صراحة كمتاحة في عدة دول عربية بالشرق الأوسط وشمال أفريقيا.", en:"One of the few panels that explicitly markets itself as available in several Arab countries across the Middle East and North Africa."}},
+  {name:"YouGov", url:"https://www.yougov.com", pay:["giftcards","paypal"], status:"vpn",
+    note:{ar:"شركة أبحاث كبرى بمصداقية عالية ولها لوحات مخصصة لبعض دول الخليج (كالإمارات)، لكن سوريا ليست ضمن القائمة الرسمية غالباً.", en:"A large, highly credible research firm with dedicated panels for some Gulf countries (e.g. the UAE), though Syria usually isn't on its official list."}},
+  {name:"FoxyPanel", url:"https://foxypanel.com", pay:["paypal","giftcards"], status:"closed",
+    note:{ar:"⚠️ ينص الموقع صراحة في شروطه على أن استخدام VPN أو بروكسي أو أي وسيلة تُخفي موقعك الحقيقي يُعتبر احتيالاً من طرف شركائهم، لذلك لا يُنصح باستخدامه كحل لمن هم خارج الدول المدعومة رسمياً.", en:"⚠️ The site explicitly states in its own terms that using a VPN, proxy, or anything hiding your real location is treated as fraud by its partners — so it is not a workable option for anyone outside its officially supported countries."}}
+];
+
+const extras = [
+  {name:"خمسات (Khamsat)", url:"https://khamsat.com", pay:["paypal"], status:"vpn",
+    note:{ar:"أكبر سوق عربي للخدمات المصغّرة بأسعار تبدأ من 5$، بواجهة عربية بالكامل ودعم فني بالعربية. السحب عبر PayPal فقط، وهذا يواجه نفس عائق العقوبات؛ توجد خدمات وسيطة سورية معروفة (مثل محافظ التحويل الإلكترونية) تستلم PayPal نيابة عنك وتحوّله لليرة سورية محلياً.", en:"The largest Arabic marketplace for micro-services starting at $5, with a fully Arabic interface and support. Payout is PayPal-only, facing the same sanctions barrier; known Syrian intermediary wallets exist that receive the PayPal payment on your behalf and convert it to local currency."}},
+  {name:"مستقل (Mostaql)", url:"https://mostaql.com", pay:["paypal"], status:"vpn",
+    note:{ar:"من نفس شركة خمسات (حسوب)، لكن بنظام مناقصات لمشاريع أكبر بدل الخدمات المصغّرة الثابتة السعر. نفس قيود PayPal تنطبق.", en:"From the same company as Khamsat (Hsoub), but a bidding system for larger projects instead of fixed-price micro-services. Same PayPal restrictions apply."}},
+  {name:"أسناد (Osnad)", url:"https://osnad.com", pay:["paypal"], status:"vpn",
+    note:{ar:"منصة عربية (من حسوب أيضاً) لبيع المنتجات الرقمية الجاهزة كالكتب الإلكترونية والتصاميم والدورات، دون الحاجة لتنفيذ خدمة لكل عميل على حدة.", en:"An Arabic platform (also by Hsoub) for selling ready-made digital products like e-books, designs, and courses, without doing custom work per client."}},
+  {name:"سوق فن (Souq Fann)", url:"https://souqfann.com", pay:["bank"], status:"vpn",
+    note:{ar:"سوق عربي لبيع المنتجات اليدوية (إكسسوارات، ديكور، ملابس) لحرفيين ومبدعين؛ يناسب من لديه مهارة يدوية وليس خدمة رقمية بحتة.", en:"An Arabic marketplace for selling handmade goods (accessories, decor, clothing) by artisans; suits people with a hands-on craft skill rather than a purely digital service."}},
+  {name:"Jobbers.io", url:"https://jobbers.io/ar", pay:["bank","paypal"], status:"open",
+    note:{ar:"منصة عربية بدون أي عمولة على المعاملات؛ الميزة المهمة هنا أن الدفع يُتفاوض عليه مباشرة بينك وبين العميل خارج محفظة المنصة، فلست مقيّداً بـ PayPal كوسيلة وحيدة كما في خمسات ومستقل.", en:"An Arabic platform with zero transaction commission; importantly, payment is negotiated directly between you and the client outside the platform's own wallet, so you aren't locked into PayPal the way Khamsat and Mostaql require."}},
+  {name:"بعيد (Baaeed)", url:"https://baaeed.com", pay:["bank"], status:"open",
+    note:{ar:"لوحة وظائف عن بُعد للعالم العربي (منافس لمستقل)، تربط أصحاب الكفاءات بفرص عمل عن بعد؛ التفاوض على الأجر وطريقة الدفع يتم مباشرة مع صاحب العمل.", en:"A remote-jobs board for the Arab world (a Mostaql competitor) connecting talent with remote opportunities; pay rate and payment method are negotiated directly with the employer."}},
+  {name:"منحنى (Monhna)", url:"https://monhna.com", pay:["bank"], status:"open",
+    note:{ar:"منصة عربية أخرى للعمل عن بعد وربط الكفاءات بأصحاب العمل، بنفس فكرة لوحات الوظائف لا الخدمات المصغّرة.", en:"Another Arabic remote-work platform connecting talent with employers, following the job-board model rather than fixed-price micro-services."}},
+  {name:"Fiverr", url:"https://www.fiverr.com", pay:["paypal","payoneer","bank"], status:"vpn",
+    note:{ar:"بيع خدمات مصغّرة (تصميم، ترجمة، كتابة)؛ السحب يتطلب PayPal/Payoneer.", en:"Sell freelance micro-services (design, translation, writing); payout needs PayPal/Payoneer."}},
+  {name:"Upwork", url:"https://www.upwork.com", pay:["payoneer"], status:"vpn",
+    note:{ar:"منصة عمل حر عالمية، السحب عادة عبر Payoneer إن كان متاحاً في منطقتك.", en:"Global freelance platform; payout usually via Payoneer if available in your region."}},
+  {name:"Remotasks", url:"https://www.remotasks.com", pay:["crypto","paypal"], status:"vpn",
+    note:{ar:"مهام تدريب الذكاء الاصطناعي ووسم البيانات؛ بعض الدول تُدفع لها بعملات رقمية.", en:"AI training and data-labeling tasks; some countries are paid in crypto."}},
+  {name:"Appen", url:"https://connect.appen.com", pay:["paypal","payoneer"], status:"vpn",
+    note:{ar:"مهام تقييم بيانات وترجمة عن بُعد، التوفر الجغرافي يتغير حسب المشروع.", en:"Remote data-evaluation and translation tasks; geographic availability shifts by project."}}
+];
+
+/* ============ badges / cards ============ */
+function statusBadge(s){
+  const t = I18N[currentLang];
+  if(s==="open") return `<span class="badge b-open">${t.statusOpen}</span>`;
+  if(s==="vpn") return `<span class="badge b-vpn">${t.statusVpn}</span>`;
+  return `<span class="badge b-closed">${t.statusClosed}</span>`;
+}
+function noteFor(site){ return site.note[currentLang] || site.note.en || site.note.ar; }
+function payLabels(site){ const t = I18N[currentLang]; return site.pay.map(k => t.pay[k] || k).join('، '); }
+
+function cardHTML(s){
+  const t = I18N[currentLang];
+  return `
+    <div class="card">
+      <div class="card-top">
+        <h3>${s.name}</h3>
+        <a href="${s.url}" target="_blank" rel="noopener">${t.openSite}</a>
+      </div>
+      ${statusBadge(s.status)}
+      <div class="meta"><b>${t.payLabel}</b> ${payLabels(s)}</div>
+      <div class="meta">${noteFor(s)}</div>
+    </div>`;
+}
+
+function populateFilterOptions(){
+  const t = I18N[currentLang];
+  const fp = document.getElementById('filterPay');
+  const fs = document.getElementById('filterStatus');
+  fp.innerHTML = `<option value="">${t.payAll}</option>` +
+    Object.keys(t.pay).map(k=>`<option value="${k}">${t.pay[k]}</option>`).join('');
+  fs.innerHTML = `<option value="">${t.statusAll}</option>
+    <option value="open">${t.statusOpen}</option>
+    <option value="vpn">${t.statusVpn}</option>
+    <option value="closed">${t.statusClosed}</option>`;
+}
+
+function render(){
+  const t = I18N[currentLang];
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const pay = document.getElementById('filterPay').value;
+  const status = document.getElementById('filterStatus').value;
+
+  const filtered = sites.filter(s=>{
+    if(q && !s.name.toLowerCase().includes(q)) return false;
+    if(pay && !s.pay.includes(pay)) return false;
+    if(status && s.status !== status) return false;
+    return true;
+  });
+
+  document.getElementById('count').textContent = t.countT(filtered.length, sites.length);
+  document.getElementById('list').innerHTML = filtered.map(cardHTML).join('');
+  document.getElementById('extraList').innerHTML = extras.map(cardHTML).join('');
+}
+
+function applyLang(lang){
+  currentLang = lang;
+  const t = I18N[lang];
+  document.getElementById('htmlRoot').setAttribute('dir', t.dir);
+  document.getElementById('htmlRoot').setAttribute('lang', lang);
+  document.getElementById('pageTitle').textContent = t.title;
+  document.getElementById('pageSubtitle').textContent = t.subtitle;
+  document.getElementById('search').placeholder = t.searchPh;
+  document.getElementById('extraTitle').textContent = t.extraTitle;
+  document.getElementById('extraDesc').textContent = t.extraDesc;
+  document.getElementById('footTitle').textContent = t.footTitle;
+  document.getElementById('footNote').textContent = t.footNote;
+  document.getElementById('footAlt').textContent = t.footAlt;
+  document.getElementById('contactTitle').textContent = t.contactTitle;
+  document.getElementById('emailLabel').textContent = t.emailLabel;
+  document.getElementById('whatsappLabel').textContent = t.whatsappLabel;
+  document.getElementById('footDisclaimer').textContent = t.footDisclaimer;
+  document.getElementById('shareTitle').textContent = t.shareTitle;
+  document.getElementById('shareWhatsapp').textContent = t.shareWA;
+  document.getElementById('shareTelegram').textContent = t.shareTG;
+  document.getElementById('shareCopy').textContent = t.shareCopy;
+  document.getElementById('installTitle').textContent = t.installTitle;
+  document.getElementById('installMsg').textContent = t.installDefault;
+  document.getElementById('doInstall').textContent = t.installNow;
+  document.getElementById('chatTitle').textContent = t.chatTitle;
+  document.getElementById('chatInput').placeholder = t.chatPh;
+  document.getElementById('chatSend').textContent = t.chatSend;
+  document.getElementById('chatHint').textContent = t.chatHint;
+  populateFilterOptions();
+  render();
+}
+
+document.getElementById('langSelect').addEventListener('change', e => applyLang(e.target.value));
+document.getElementById('search').addEventListener('input', render);
+document.getElementById('filterPay').addEventListener('change', render);
+document.getElementById('filterStatus').addEventListener('change', render);
+
+/* ============ sheets ============ */
+function openSheet(id){ document.getElementById(id).classList.add('open'); }
+function closeSheet(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('[data-close]').forEach(btn=> btn.addEventListener('click', ()=> closeSheet(btn.getAttribute('data-close'))));
+
+/* ============ share ============ */
+function doShare(){
+  const t = I18N[currentLang];
+  const shareData = { title: t.title, text: t.title + ' — by nidal watfa', url: location.href };
+  if(navigator.share){ navigator.share(shareData).catch(()=>{}); }
+  else{ openSheet('shareSheet'); }
+}
+document.getElementById('shareTopBtn').addEventListener('click', doShare);
+document.getElementById('shareWhatsapp').addEventListener('click', function(e){
+  e.preventDefault();
+  window.open('https://wa.me/?text=' + encodeURIComponent(I18N[currentLang].title + ': ' + location.href), '_blank');
+});
+document.getElementById('shareTelegram').addEventListener('click', function(e){
+  e.preventDefault();
+  window.open('https://t.me/share/url?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(I18N[currentLang].title), '_blank');
+});
+document.getElementById('shareCopy').addEventListener('click', function(e){
+  e.preventDefault();
+  navigator.clipboard?.writeText(location.href).then(()=>{
+    const t = I18N[currentLang];
+    this.textContent = t.copied;
+    setTimeout(()=> this.textContent = t.shareCopy, 1800);
+  });
+});
+
+/* ============ install / PWA ============ */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('doInstall').style.display = 'inline-block';
+  document.getElementById('installMsg').textContent = I18N[currentLang].installReady;
+});
+document.getElementById('installFab').addEventListener('click', ()=> openSheet('installSheet'));
+document.getElementById('doInstall').addEventListener('click', async ()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+});
+
+/* ============ chat assistant ============ */
+const FAQS = {
+  ar:[ {k:["vpn","في بي ان"], a:"المواقع المعلّمة 'قد يحتاج VPN' يُفضّل معها VPN لدولة تدعمها هذه المواقع رسمياً، لكن هذا لا يضمن قبول الحساب أو نجاح السحب."},
+       {k:["سحب","دفع","paypal","باي بال"], a:"مواقع PayPal تحظر بعض الدول بسبب العقوبات. الخيار الأكثر واقعية هو المواقع التي تدفع بعملات رقمية أو بطاقات هدايا."},
+       {k:["تسجيل","كيف اسجل","انشاء حساب"], a:"افتح رابط الموقع من البطاقة، اضغط Sign Up، استخدم بريداً مخصصاً، واملأ الملف الشخصي بدقة."},
+       {k:["أفضل","احسن","توصية"], a:"للبدء بأقل تعقيد جرّب Freecash أو Timebucks لأنهما 'متاح غالباً بدون قيود' ويدفعان بعملات رقمية."},
+       {k:["أمان","نصب","موثوق"], a:"لا يوجد موقع يدفع 100$ يومياً بدون مجهود — أي إعلان كهذا غالباً نصب. لا تدفع رسوماً مقابل 'فتح' حساب."},
+       {k:["مطور","nidal","تواصل"], a:"للتواصل مع المطور: nidalwatfa99@gmail.com أو واتساب في أسفل الصفحة."} ],
+  en:[ {k:["vpn"], a:"Sites marked 'may need VPN' work better with a VPN for a country they officially support, but this doesn't guarantee account acceptance or a successful payout."},
+       {k:["withdraw","payout","paypal"], a:"PayPal blocks some countries due to sanctions. The more realistic option is sites paying in crypto or gift cards."},
+       {k:["sign up","signup","register","account"], a:"Open the site from its card, click Sign Up, use a dedicated email, and fill your profile accurately."},
+       {k:["best","recommend"], a:"Start with Freecash or Timebucks — they're marked 'usually open' and pay in crypto."},
+       {k:["safe","scam","trust"], a:"No survey site pays $100/day with no effort — that kind of ad is usually a scam. Never pay a fee to 'unlock' a survey account."},
+       {k:["developer","nidal","contact"], a:"To contact the developer: nidalwatfa99@gmail.com or WhatsApp at the bottom of the page."} ]
+};
+FAQS.ku = FAQS.en; FAQS.hy = FAQS.en;
+
+function findAnswer(msg){
+  const t = I18N[currentLang];
+  const lower = msg.toLowerCase();
+  const site = sites.concat(extras).find(s=> lower.includes(s.name.toLowerCase()));
+  if(site){
+    return `${site.name}: ${t.payLabel} ${payLabels(site)} — ${site.status==='open'?t.statusOpen:site.status==='vpn'?t.statusVpn:t.statusClosed}. ${noteFor(site)}`;
+  }
+  const list = FAQS[currentLang] || FAQS.en;
+  const hit = list.find(f=> f.k.some(k=> lower.includes(k)));
+  if(hit) return hit.a;
+  return t.chatNotFound;
+}
+
+function addBubble(text, who){
+  const log = document.getElementById('chatLog');
+  const div = document.createElement('div');
+  div.className = 'chat-bubble' + (who==='user' ? ' user' : '');
+  div.textContent = text;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+document.getElementById('chatFab').addEventListener('click', ()=>{
+  openSheet('chatBox');
+  if(!document.getElementById('chatLog').children.length){
+    addBubble(I18N[currentLang].chatGreeting, 'bot');
+  }
+});
+function sendChat(){
+  const input = document.getElementById('chatInput');
+  const val = input.value.trim();
+  if(!val) return;
+  addBubble(val, 'user');
+  input.value = '';
+  setTimeout(()=> addBubble(findAnswer(val), 'bot'), 300);
+}
+document.getElementById('chatSend').addEventListener('click', sendChat);
+document.getElementById('chatInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
+
+/* ============ init ============ */
+applyLang('ar');
+</script>
+
+</body>
+</html>
